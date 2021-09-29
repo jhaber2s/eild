@@ -22,9 +22,17 @@ export { render };
  * @param {function} onFinishClick - when 'finish' button is clicked
  * @returns {TemplateResult} main HTML template
  */
-export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick ) {
+export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick ) {
   let { centered, comment, images, left, swap } = app.notations[ data.notation ];
   const section = data.sections[ phrase_nr - 1 ];
+  console.log("images")
+  console.log(images)
+  console.log("swap")
+  console.log(swap)
+  console.log("section")
+  console.log(section)
+  console.log("app")
+  console.log(app)
   return html`
     <h1 class="mx-3">${app.text.title}</h1> <!-- Title -->
     <header class="bg-light border rounded-top d-flex flex-wrap justify-content-between align-items-center p-2">
@@ -63,7 +71,7 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
             <div>${app.text.entity1}</div>
             <div>${app.text.entity2}</div>
           </div>
-          <div id="diagram" class="d-flex justify-content-between align-items-center">
+          <div id="diagram" class="d-flex justify-content-between align-items-center" style="visibility:${Object.keys(phrase).length === 7 ?'visible':'hidden'}">
             <div class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
               ${phrase.relationship[0]}
             </div>
@@ -83,6 +91,9 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
               ${phrase.relationship[2]}
             </div>
           </div>
+          <div id="ndiagram" class="d-flex justify-content-between align-items-center" style="visibility:${Object.keys(phrase).length === 7 ?'hidden':'visible'}">
+           ${Object.keys(phrase).length === 7 ? html`` : nnaryDiagram(phrase,app,section,swap,images,centered)}
+          </div>
         </section>
 
         <!-- Selector Boxes -->
@@ -100,6 +111,64 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
             </select>
           </div>
         </section>
+
+        <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+          <div class="d-flex align-items-center pr-2">
+            <label for="input5" class="m-0 text-nowrap"><b>${app.text.input5}</b></label>
+            <select id="input5" class="form-control ml-2" @change=${onFifthInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[4])+1===i}>${caption}</option>`)}
+            </select>
+          </div>
+          <div class="d-flex align-items-center pr-2">
+            <label for="input3" class="m-0 text-nowrap"><b>${app.text.input3}</b></label>
+            <select id="input3" class="form-control ml-2" @change=${onThirdInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[2])+1===i}>${caption}</option>`)}
+            </select>
+          </div>          
+          <div class="d-flex align-items-center pl-2">
+            <label for="input6" class="m-0 text-nowrap"><b>${app.text.input6}</b></label>
+            <select id="input6" class="form-control ml-2" @change=${onSixthInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[5])+1===i}>${caption}</option>`)}
+            </select>
+          </div>
+        </section>
+
+        <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+          <div class="d-flex align-items-center pr-2">
+            <label for="input1" class="m-0 text-nowrap"><b>${app.text.input1}</b></label>
+            <select id="input1" class="form-control ml-2" @change=${onFirstInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[0])+1===i}>${caption}</option>`)}
+            </select>
+          </div>
+          <div class="d-flex align-items-center pl-2">
+            <label for="input2" class="m-0 text-nowrap"><b>${app.text.input3}</b></label>
+            <select id="input2" class="form-control ml-2" @change=${onSecondInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[1])+1===i}>${caption}</option>`)}
+            </select>
+          </div>
+        </section>
+
+        <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+          <div class="d-flex align-items-center pr-2">
+            <label for="input7" class="m-0 text-nowrap"><b>${app.text.input1}</b></label>
+            <select id="input7" class="form-control ml-2" @change=${onSeventhInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[6])+1===i}>${caption}</option>`)}
+            </select>
+          </div>
+          <div class="d-flex align-items-center pr-2">
+            <label for="input4" class="m-0 text-nowrap"><b>${app.text.input2}</b></label>
+            <select id="input4" class="form-control ml-2" @change=${onFourthInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[3])+1===i}>${caption}</option>`)}
+            </select>
+          </div>          
+          <div class="d-flex align-items-center pl-2">
+            <label for="input8" class="m-0 text-nowrap"><b>${app.text.input3}</b></label>
+            <select id="input8" class="form-control ml-2" @change=${onEighthInputChange}>
+              ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[7])+1===i}>${caption}</option>`)}
+            </select>
+          </div>
+        </section>
+
 
         <!-- Notation Comment -->
         <section ?data-hidden=${!comment||app.feedback&&section.correct!==undefined}>
@@ -181,3 +250,67 @@ export function legend( app ) {
     </table>
   `;
 }
+
+export function nnaryDiagram(phrase, app, section,swap,images,centered){
+  console.log(phrase.relationship)
+  return html`
+  <div id="relation">
+    <img id="middle" src="${images[5]}">
+    <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[0]}</div>
+  </div>
+  <div id="first" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}"  class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[0]}
+  </div>
+  <div id="firstN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[0])+1]}">
+  </div>
+  <div id="second" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[1]}
+  </div>
+  <div id="secondN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[1])+1]}">
+  </div>
+  <div id="third" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[2]}
+  </div>
+  <div id="thirdN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[2])+1]}">
+  </div> 
+  <div id="fourth" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[3]}
+  </div>
+  <div id="fourthN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[3])+1]}">
+  </div>  
+  <div id="fifth" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[4]}
+  </div>
+  <div id="fifthN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[4])+1]}">
+  </div>  
+  <div id="sixth" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[5]}
+  </div>
+  <div id="sixthN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[5])+1]}">
+  </div>  
+  <div id="seventh" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[6]}
+  </div>
+  <div id="seventhN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[6])+1]}">
+  </div>  
+  <div id="eighth" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+    ${phrase.objects[7]}
+  </div>
+  <div id="eighthN"> 
+    <img id="left" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[7])+1]}">
+  </div>  
+
+  `;
+
+}
+
+
+
+

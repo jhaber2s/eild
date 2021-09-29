@@ -10,7 +10,86 @@
 }
 
 #diagram {
-  overflow: auto;
+  overflow: auto; 
+}
+
+#ndiagram{
+  display: grid !important;
+  grid-template-columns: 240px 60px 240px 60px 240px;
+  grid-template-rows: auto;
+  row-gap: 30px;
+  grid-template-areas: 
+    "fifth . third . sixth"
+    ". fifthN thirdN sixthN ."
+    "first firstN relation secondN second"
+    ". seventhN fourthN eighthN ."
+    "seventh . fourth . eighth";
+  overflow: auto; 
+}
+
+#first{
+  grid-area: first;
+}
+
+#second{
+  grid-area: second;
+}
+
+#third{
+  grid-area: third;
+}
+#fourth{
+  grid-area: fourth;
+}
+#fifth{
+  grid-area: fifth;
+}
+#sixt{
+  grid-area: sixt;
+}
+#seventh{
+  grid-area: seventh;
+}
+#eighth{
+  grid-area: eighth;
+}
+
+#firstN{
+  grid-area: firstN;
+}
+#secondN{
+  grid-area: secondN;
+}
+#thirdN{
+  grid-area: thirdN;
+}
+#fourthN{
+  grid-area: fourthN;
+}
+#fifthN{
+  grid-area: fifthN;
+}
+#sixtN{
+  grid-area: sixtN;
+}
+#seventhN{
+  grid-area: seventhN;
+}
+#eighthN{
+  
+  grid-area: eighthN;
+}
+
+#relation{
+  grid-area: relation;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate( -50%, -50% );
+  font-size: smaller;
+  padding-bottom: 20px;
+  display: block;
+  max-height: 100px;
 }
 
 #left, #right {
@@ -35,6 +114,10 @@
   display: block;
   max-height: 100px;
 }
+#relation img{
+  display: block;
+  max-height: 100px;
+}
 
 #name {
   position: relative;
@@ -47,6 +130,14 @@
   transform: translate( -50%, -50% );
   font-size: smaller;
   padding-bottom: 20px;
+}
+
+#relation > div {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate( -50%, -50% );
+  font-size: smaller;
 }
 
 #name > div[data-centered] {

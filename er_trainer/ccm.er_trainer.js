@@ -76,7 +76,126 @@
 //    "onchange": event => console.log( event ),
 //    "onstart": instance => console.log( instance ),
       "onfinish": { "restart": true },
-      "phrases": [ "ccm.get", { "name": "eild-er_trainer-phrases", "url": "https://ccm2.inf.h-brs.de" } ],
+      "phrases": [
+        {
+          "text": "Ein Kontinent besteht aus mehreren Staaten. Es gibt allerdings auch Staaten, die auf mehreren Kontinenten liegen.",
+          "relationship": [
+            "Kontinent",
+            "besteht aus",
+            "Staat"
+          ],
+          "solution": [
+            "n",
+            "n"
+          ],
+          "updated_at": "2021-04-12T14:19:10+02:00",
+          "created_at": "2021-03-24T11:57:00+01:00",
+          "comment": [
+            "Ein Staat liegt auf einem oder auch mehreren Kontinenten.",
+            "Ein Kontinent besteht aus einem bis hin zu mehreren Staaten."
+          ],
+          "key": "1616583419943X07816238718167612"
+        },
+        {
+          "text": "Ein Orchester hat genau einen Dirigenten.",
+          "relationship": [
+            "Dirigent",
+            "dirigiert",
+            "Orchester"
+          ],
+          "solution": [
+            "1",
+            "1"
+          ],
+          "updated_at": "2021-04-12T14:19:10+02:00",
+          "created_at": "2021-03-24T11:57:00+01:00",
+          "comment": [
+            "Ein Orchester wird von genau einem Dirigenten dirigiert.",
+            "Ein Dirigent dirigiert genau ein Orchester."
+          ],
+          "key": "1616583420033X8090030402725776"
+        },
+        {
+          "text": "Eine Stadt kann eine Hauptstadt sein. Jeder Staat hat genau eine Hauptstadt.",
+          "relationship": [
+            "Staat",
+            "hauptstadt von",
+            "Stadt"
+          ],
+          "solution": [
+            "c",
+            "1"
+          ],
+          "updated_at": "2021-04-12T14:19:10+02:00",
+          "created_at": "2021-03-24T11:57:00+01:00",
+          "comment": [
+            "Stadt kann nur Hauptstadt von genau einem Staat sein.",
+            "Die Beziehung ist Hauptstadt ist nur für höchstens eine Stadt in einem Staat richtig und für alle anderen falsch."
+          ],
+          "key": "1616583420056X5457200187602396"
+        },
+        {
+          "text": "Ein Musiker spielt ein oder mehrere Instrumete. Ein Instrument wird von mehreren Musikern gespielt.",
+          "relationship": [
+            "Musiker",
+            "spielt",
+            "Instrument"
+          ],
+          "solution": [
+            "n",
+            "n"
+          ],
+          "updated_at": "2021-04-12T14:19:10+02:00",
+          "created_at": "2021-03-24T11:57:00+01:00",
+          "comment": [
+            "Ein Instrument wird von mindestens einem bis hin zu mehreren Musikern gespielt.",
+            "Musiker spielt mindestens ein bis hin zu mehreren Instrumenten."
+          ],
+          "key": "1616583420078X07000891364194728"
+        },
+        {
+          "text": "Ein Komponist komponiert mehrere Musikstücke.",
+          "relationship": [
+            "Komponist",
+            "komponiert",
+            "Musikstück"
+          ],
+          "solution": [
+            "1",
+            "n"
+          ],
+          "updated_at": "2021-04-12T14:19:10+02:00",
+          "created_at": "2021-03-24T11:57:00+01:00",
+          "comment": [
+            "Musikstück hat einen Komponisten.",
+            "Komponist komponiert mehrere Musikstücke."
+          ],
+          "key": "1616583420099X766745849544219"
+        },
+        {
+          "text": "Test bezeihung zwischen Objekten",
+          "objects": [
+            "Objekt1",
+            "Objekt2",
+            "Objekt3"
+          ],
+		      "relationship":["beziehung","","","",""],
+          "solution": [
+            "1",
+            "n",
+		      	"cn"
+          ],
+          "updated_at": "2021-04-12T14:19:10+02:00",
+          "created_at": "2021-03-24T11:57:00+01:00",
+          "comment": [
+            "Objekt1 nimmt 1 mal teil",
+            "Objekt2 nimmt n mal teil ",
+			      "Objekt3 nimmt 1-n mal teil"
+          ],
+          "key": "1616583420099X766745849644219"
+        }
+
+      ],
       "show_solution": true,
       "shuffle": true,
       "text": {
@@ -189,7 +308,7 @@
 
       /** renders current phrase */
       const render = () => {
-        this.html.render( this.html.main( this, dataset, phrases[ 0 ], phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick ), this.element );
+        this.html.render( this.html.main( this, dataset, phrases[ 0 ], phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick ), this.element );
         this.element.querySelectorAll( '[selected]' ).forEach( option => option.selected = true );  // workaround for lit-html bug
       };
 
@@ -225,6 +344,65 @@
         render();
         this.onchange && this.onchange( { event: 'right', instance: this, phrase: phrase_nr } );
       };
+
+      /** when selected entry of left selector box changes */
+      const onFirstInputChange = event => {
+        console.log(this.onchange)
+        setNInput( 0, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'first', instance: this, phrase: phrase_nr } );
+      };    
+      
+      /** when selected entry of left selector box changes */
+      const onSecondInputChange = event => {
+        setNInput( 1, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'second', instance: this, phrase: phrase_nr } );
+      };  
+      
+      /** when selected entry of left selector box changes */
+      const onThirdInputChange = event => {
+        setNInput( 2, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'third', instance: this, phrase: phrase_nr } );
+      };  
+
+      /** when selected entry of left selector box changes */
+      const onFourthInputChange = event => {
+        console.log(this.onchange)
+        setNInput( 3, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'fourth', instance: this, phrase: phrase_nr } );
+      };    
+      
+      /** when selected entry of left selector box changes */
+      const onFifthInputChange = event => {
+        setNInput( 4, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'fifth', instance: this, phrase: phrase_nr } );
+      };  
+      
+      /** when selected entry of left selector box changes */
+      const onSixthInputChange = event => {
+        setNInput( 5, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'sixth', instance: this, phrase: phrase_nr } );
+      };  
+      /** when selected entry of left selector box changes */
+      const onSeventhInputChange = event => {
+        console.log(this.onchange)
+        setNInput( 6, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'seventh', instance: this, phrase: phrase_nr } );
+      };    
+      
+      /** when selected entry of left selector box changes */
+      const onEighthInputChange = event => {
+        setNInput( 7, event.target.value );
+        render();
+        this.onchange && this.onchange( { event: 'Eighth', instance: this, phrase: phrase_nr } );
+      };  
+      
 
       /** when 'cancel' button is clicked */
       const onCancelClick = () => {
@@ -279,6 +457,12 @@
         const section = dataset.sections[ phrase_nr - 1 ];
         if ( !section.input ) section.input = [];
         section.input[ left_or_right ? 1 : 0 ] = value;
+      };
+
+      const setNInput = (objectNumber, value) => {
+        const section = dataset.sections[ phrase_nr - 1 ];
+        if ( !section.input ) section.input = [];
+        section.input[ objectNumber ] = value;
       };
 
     }
