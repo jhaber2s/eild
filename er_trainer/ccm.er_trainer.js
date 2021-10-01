@@ -298,7 +298,7 @@
       const nextPhrase = () => {
         phrase_nr++;
         dataset.sections.push( {
-          input: [ '', '' ],
+          input: [ '', '','' ],
           relationship: phrases[ 0 ].relationship,
           solution: phrases[ 0 ].solution,
           text: phrases[ 0 ].text
@@ -413,10 +413,14 @@
       /** when 'submit' button is clicked */
       const onSubmitClick = () => {
         const section = dataset.sections[ phrase_nr - 1 ];
-        section.input = [
-          this.element.querySelector( '#input' + ( this.notations[ dataset.notation ].swap ? 2 : 1 ) ).value,
-          this.element.querySelector( '#input' + ( this.notations[ dataset.notation ].swap ? 1 : 2 ) ).value
-        ];
+        console.log(section)
+        console.log(dataset)
+        if(section.input.length<3){
+          section.input = [
+            this.element.querySelector( '#input' + ( this.notations[ dataset.notation ].swap ? 2 : 1 ) ).value,
+            this.element.querySelector( '#input' + ( this.notations[ dataset.notation ].swap ? 1 : 2 ) ).value
+          ];
+        }
         section.correct = section.input.toString() === section.solution.toString();
         if ( section.correct ) dataset.correct++;
         this.feedback && this.element.classList.add( section.correct ? 'correct' : 'failed' );
@@ -424,6 +428,8 @@
         this.onchange && this.onchange( { event: 'submit', instance: this, phrase: phrase_nr } );
         !this.feedback && onNextClick();
       };
+
+
 
       /** when 'next' button is clicked */
       const onNextClick = () => {
@@ -462,7 +468,9 @@
       const setNInput = (objectNumber, value) => {
         const section = dataset.sections[ phrase_nr - 1 ];
         if ( !section.input ) section.input = [];
+        console.log(section)
         section.input[ objectNumber ] = value;
+        console.log(section)
       };
 
     }
