@@ -15,15 +15,14 @@
 
 #ndiagram{
   display: grid !important;
-  grid-template-columns: 240px 60px 240px 60px 240px;
+  grid-template-columns: 240px 60px 1fr 240px 1fr 60px 240px;
   grid-template-rows: auto;
-  row-gap: 30px;
   grid-template-areas: 
-    "fifth . third . sixth"
-    ". fifthN thirdN sixthN ."
-    "first firstN relation secondN second"
-    ". seventhN fourthN eighthN ."
-    "seventh . fourth . eighth";
+    "fifth fifthN leftDown third rightDown sixthN sixth"
+    ". . lineDownLeft thirdN lineDownRight . ."
+    "first firstN lineLeft relation lineRight secondN second"
+    ". . lineUpLeft fourthN lineUpRight . ."
+    "seventh seventhN leftUp fourth rightUp eighthN eighth";
   overflow: auto; 
 }
 
@@ -44,8 +43,8 @@
 #fifth{
   grid-area: fifth;
 }
-#sixt{
-  grid-area: sixt;
+#sixth{
+  grid-area: sixth;
 }
 #seventh{
   grid-area: seventh;
@@ -56,6 +55,7 @@
 
 #firstN{
   grid-area: firstN;
+  flex: 1;
 }
 #secondN{
   grid-area: secondN;
@@ -69,8 +69,8 @@
 #fifthN{
   grid-area: fifthN;
 }
-#sixtN{
-  grid-area: sixtN;
+#sixthN{
+  grid-area: sixthN;
 }
 #seventhN{
   grid-area: seventhN;
@@ -78,6 +78,68 @@
 #eighthN{
   
   grid-area: eighthN;
+}
+#lineLeft{
+  height: 100%;
+  grid-area: lineLeft;
+  display: grid !important;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: 1fr 2px 1fr;
+  grid-template-areas: 
+    ". topCrossLine ."
+    "horizontalLine horizontalLine horizontalLine"
+    ". bottomCrossLine .";
+  align-items: center;
+}
+
+.topCrossLine{
+  grid-area: topCrossLine;
+  flex: 1;
+  width: 2px;
+  height: 100%;
+  background-color: black;
+}
+
+.bottomCrossLine{
+  grid-area: bottomCrossLine;
+  flex: 1;
+  width: 2px;
+  height: 100%;
+  background-color: black;
+}
+
+
+#lineDownLeft{
+  grid-area: lineDownLeft;
+  justify-self: center;
+}
+
+#leftDown{
+  grid-area: leftDown;
+  display: grid !important;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: 1fr 2px 1fr;
+  grid-template-areas: 
+    "filler filler fillerside"
+    "horizontalLine verticlaLine fillerside"
+    ". verticlaLine fillerside";
+  align-items: center;
+}
+
+.horizontalLine{
+  grid-area: horizontalLine;
+  flex: 1;
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.verticlaLine{
+  grid-area: verticlaLine;
+  flex: 1;
+  width: 2px;
+  height: 100px;
+  background-color: black;
 }
 
 #relation{

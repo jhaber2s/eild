@@ -177,11 +177,21 @@
           "objects": [
             "Objekt1",
             "Objekt2",
-            "Objekt3"
+            "Objekt3",
+            "Objekt4",
+            "Objekt5",
+            "Objekt6",
+            "Objekt7",
+            "Objekt8"
           ],
 		      "relationship":["beziehung","","","",""],
           "solution": [
             "1",
+            "n",
+		      	"cn",
+            "n",
+		      	"cn",
+            "cn",
             "n",
 		      	"cn"
           ],
@@ -190,7 +200,12 @@
           "comment": [
             "Objekt1 nimmt 1 mal teil",
             "Objekt2 nimmt n mal teil ",
-			      "Objekt3 nimmt 1-n mal teil"
+			      "Objekt3 nimmt 1-n mal teil",
+            "Objekt4 nimmt 1-n mal teil",
+            "Objekt5 nimmt 1-n mal teil",
+            "Objekt6 nimmt 1-n mal teil",
+            "Objekt7 nimmt 1-n mal teil",
+            "Objekt8 nimmt 1-n mal teil"
           ],
           "key": "1616583420099X766745849644219"
         }
@@ -298,7 +313,7 @@
       const nextPhrase = () => {
         phrase_nr++;
         dataset.sections.push( {
-          input: [ '', '','' ],
+          input: [],
           relationship: phrases[ 0 ].relationship,
           solution: phrases[ 0 ].solution,
           text: phrases[ 0 ].text
@@ -347,7 +362,6 @@
 
       /** when selected entry of left selector box changes */
       const onFirstInputChange = event => {
-        console.log(this.onchange)
         setNInput( 0, event.target.value );
         render();
         this.onchange && this.onchange( { event: 'first', instance: this, phrase: phrase_nr } );
@@ -369,7 +383,6 @@
 
       /** when selected entry of left selector box changes */
       const onFourthInputChange = event => {
-        console.log(this.onchange)
         setNInput( 3, event.target.value );
         render();
         this.onchange && this.onchange( { event: 'fourth', instance: this, phrase: phrase_nr } );
@@ -390,7 +403,6 @@
       };  
       /** when selected entry of left selector box changes */
       const onSeventhInputChange = event => {
-        console.log(this.onchange)
         setNInput( 6, event.target.value );
         render();
         this.onchange && this.onchange( { event: 'seventh', instance: this, phrase: phrase_nr } );
@@ -413,8 +425,6 @@
       /** when 'submit' button is clicked */
       const onSubmitClick = () => {
         const section = dataset.sections[ phrase_nr - 1 ];
-        console.log(section)
-        console.log(dataset)
         if(section.input.length<3){
           section.input = [
             this.element.querySelector( '#input' + ( this.notations[ dataset.notation ].swap ? 2 : 1 ) ).value,
@@ -468,9 +478,7 @@
       const setNInput = (objectNumber, value) => {
         const section = dataset.sections[ phrase_nr - 1 ];
         if ( !section.input ) section.input = [];
-        console.log(section)
         section.input[ objectNumber ] = value;
-        console.log(section)
       };
 
     }

@@ -25,7 +25,6 @@ export { render };
 export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick ) {
   let { centered, comment, images, left, swap } = app.notations[ data.notation ];
   const section = data.sections[ phrase_nr - 1 ];
-  console.log(app)
   return html`
     <h1 class="mx-3">${app.text.title}</h1> <!-- Title -->
     <header class="bg-light border rounded-top d-flex flex-wrap justify-content-between align-items-center p-2">
@@ -37,7 +36,7 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
           <div class="d-flex align-items-center">
             <label for="notation-input" class="m-0 text-nowrap"><b>${app.text.notation}</b></label>
             <select id="notation-input" class="form-control ml-2" @change=${onNotationChange}>
-              ${Object.values(app.notations).sort( ( a, b ) => a.title.localeCompare( b.title ) ).map(({key,title})=>html`<option value="${key}" ?selected=${data.notation===key}>${title}</option>`)}
+              ${Object.keys(phrase).length === 7 ? Object.values(app.notations).sort( ( a, b ) => a.title.localeCompare( b.title ) ).map(({key,title})=>html`<option value="${key}" ?selected=${data.notation===key}>${title}</option>`) : html`<option value="Abrial" ?selected=Abrial>Abrial</option>`}
             </select>
           </div>
         </section>
@@ -145,7 +144,7 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
         <!-- Buttons -->
         <section class="d-flex justify-content-center flex-wrap px-2 py-3">
           <button class="btn btn-outline-danger m-1" id="cancel" @click=${onCancelClick} ?data-hidden=${!app.oncancel}>${app.text.cancel}</button>
-          <button class="btn btn-primary m-1" @click=${onSubmitClick} ?data-hidden=${section.correct!==undefined||!section.input[0]||!section.input[1]}>${app.text.submit}</button>
+          <button class="btn btn-primary m-1" @click=${onSubmitClick} ?data-hidden=${section.input.filter(String).length !== section.solution.length}>${app.text.submit}</button>
           <button class="btn btn-primary m-1" @click=${onNextClick} ?data-hidden=${section.correct===undefined||phrase_nr===app.number}>${app.text.next}</button>
           <button class="btn btn-success m-1" @click=${onFinishClick} ?data-hidden=${section.correct===undefined||phrase_nr<app.number||!app.onfinish}>${app.text.finish}</button>
         </section>
@@ -191,7 +190,6 @@ export function legend( app ) {
   `;
 }
 export function nnarySelector(phrase, app,section, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange){
-console.log(section)
   return html`
   <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
   <div style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="d-flex align-items-center pr-2">
@@ -264,7 +262,11 @@ export function nnaryDiagram(phrase, app, section,swap,images,centered){
     <div id="firstN"> 
       <img id="left" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[0])+1]}">
     </div>
-    <div id="second" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[2]===section.solution[1]?'correct':'failed')}">
+    <div id="lineLeft">
+      <div class="topCrossLine"> </div>
+      <div class="horizontalLine"> </div>
+    </div>
+    <div id="second" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[1]===section.solution[1]?'correct':'failed')}">
       ${phrase.objects[1]}
     </div>
     <div id="secondN"> 
@@ -285,9 +287,14 @@ export function nnaryDiagram(phrase, app, section,swap,images,centered){
     <div id="fifth" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[4]===section.solution[4]?'correct':'failed')}">
       ${phrase.objects[4]}
     </div>
-    <div id="fifthN"> 
+    <div id="fifthN">
       <img id="left" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[4])+1]}">
-    </div>  
+    </div>
+    <div id="leftDown"> 
+      <div class="horizontalLine"> </div>
+      <div class="verticlaLine"></div>
+    </div>
+    <div id="lineDownLeft" class="verticlaLine">  </div>
     <div id="sixth" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[5]===section.solution[5]?'correct':'failed')}">
       ${phrase.objects[5]}
     </div>
