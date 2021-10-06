@@ -18,67 +18,34 @@
   grid-template-columns: 240px 60px 1fr 240px 1fr 60px 240px;
   grid-template-rows: auto;
   grid-template-areas: 
-    "fifth fifthN leftDown third rightDown sixthN sixth"
-    ". . lineDownLeft thirdN lineDownRight . ."
-    "first firstN lineLeft relation lineRight secondN second"
-    ". . lineUpLeft fourthN lineUpRight . ."
-    "seventh seventhN leftUp fourth rightUp eighthN eighth";
+    "fifth fifth fifth third sixth sixth sixth"
+    "fifth fifth fifth third sixth sixth sixth"
+    "first first first relation second second second"
+    "seventh seventh seventh fourth eighth eighth eighth"
+    "seventh seventh seventh fourth eighth eighth eighth";
   overflow: auto; 
 }
 
 #first{
   grid-area: first;
+  display: grid;
+  grid-template-columns: 240px 60px 1fr ;
+  grid-template-rows: 1fr;
+  grid-template-areas: 
+  "firstObject firstN lineLeft";
+  height: 100%;
 }
-
-#second{
-  grid-area: second;
-}
-
-#third{
-  grid-area: third;
-}
-#fourth{
-  grid-area: fourth;
-}
-#fifth{
-  grid-area: fifth;
-}
-#sixth{
-  grid-area: sixth;
-}
-#seventh{
-  grid-area: seventh;
-}
-#eighth{
-  grid-area: eighth;
+#firstObject{
+  grid-area: firstObject;
+  align-self: center;
+  height: 60px;
 }
 
 #firstN{
   grid-area: firstN;
-  flex: 1;
+  align-self: center;
 }
-#secondN{
-  grid-area: secondN;
-}
-#thirdN{
-  grid-area: thirdN;
-}
-#fourthN{
-  grid-area: fourthN;
-}
-#fifthN{
-  grid-area: fifthN;
-}
-#sixthN{
-  grid-area: sixthN;
-}
-#seventhN{
-  grid-area: seventhN;
-}
-#eighthN{
-  
-  grid-area: eighthN;
-}
+
 #lineLeft{
   height: 100%;
   grid-area: lineLeft;
@@ -91,6 +58,45 @@
     ". bottomCrossLine .";
   align-items: center;
 }
+
+
+
+#second{
+  grid-area: second;
+  display: grid;
+  grid-template-columns: 1fr 60px 240px ;
+  grid-template-rows: 1fr;
+  grid-template-areas: 
+  "lineRight secondN secondObject";
+  height: 100%;
+}
+
+#secondObject{
+  grid-area: secondObject;
+  align-self: center;
+  height: 60px;
+}
+
+#secondN{
+  grid-area: secondN;
+  align-self: center;
+}
+
+#lineRight{
+  height: 100%;
+  grid-area: lineRight;
+  display: grid !important;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: 1fr 2px 1fr;
+  grid-template-areas: 
+    ". topCrossLine ."
+    "horizontalLine horizontalLine horizontalLine"
+    ". bottomCrossLine .";
+  align-items: center;
+}
+
+
+
 
 .topCrossLine{
   grid-area: topCrossLine;
@@ -108,24 +114,6 @@
   background-color: black;
 }
 
-
-#lineDownLeft{
-  grid-area: lineDownLeft;
-  justify-self: center;
-}
-
-#leftDown{
-  grid-area: leftDown;
-  display: grid !important;
-  grid-template-columns: 1fr 2px 1fr;
-  grid-template-rows: 1fr 2px 1fr;
-  grid-template-areas: 
-    "filler filler fillerside"
-    "horizontalLine verticlaLine fillerside"
-    ". verticlaLine fillerside";
-  align-items: center;
-}
-
 .horizontalLine{
   grid-area: horizontalLine;
   flex: 1;
@@ -138,9 +126,254 @@
   grid-area: verticlaLine;
   flex: 1;
   width: 2px;
-  height: 100px;
+  height: 100%;
   background-color: black;
 }
+
+
+
+
+
+
+
+#third{
+  grid-area: third;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "thirdObject"
+  "thirdN";
+  height: 100%;
+}
+
+
+#thirdObject{
+  grid-area: thirdObject;
+}
+
+#thirdN{
+  grid-area: thirdN;
+  justify-self: center;
+}
+
+
+
+
+#fourth{
+  grid-area: fourth;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "fourthN"
+  "fourthObject";
+  height: 100%;
+  
+}
+
+#fourthObject{
+  grid-area: fourthObject;
+}
+
+#fourthN{
+  grid-area: fourthN;
+  justify-self: center;
+}
+
+
+#fifth{
+  grid-area: fifth;
+  display: grid;
+  grid-template-columns: 240px 60px 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "fithtObject fifthN leftDown"
+  ". . lineDownLeft";
+  height: 100%;
+}
+#fithtObject{
+  grid-area: fithtObject;
+}
+
+#fifthN{
+  grid-area: fifthN;
+  align-self: center;
+}
+
+#leftDown{
+  height: 100%;
+  grid-area: leftDown;
+  display: grid !important;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: 1fr 2px 1fr;
+  grid-template-areas: 
+    ". . ."
+    "horizontalLine verticlaLine ."
+    ". verticlaLine .";
+  align-items: center;
+}
+
+#lineDownLeft{
+  grid-area: lineDownLeft;
+  justify-self: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#sixth{
+  grid-area: sixth;
+  display: grid;
+  grid-template-columns: 1fr 60px 240px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "rightDown sixthN sixthObject"
+  "lineDownRight . .";
+  height: 100%;
+}
+#sixthObject{
+  grid-area: sixthObject;
+}
+
+#sixthN{
+  grid-area: sixthN;
+  align-self: center;
+}
+
+#rightDown{
+  height: 100%;
+  grid-area: rightDown;
+  display: grid !important;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: 1fr 2px 1fr;
+  grid-template-areas: 
+    ". . ."
+    ". verticlaLine horizontalLine"
+    ". verticlaLine .";
+  align-items: center;
+}
+
+#lineDownRight{
+  grid-area: lineDownRight;
+  justify-self: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#seventh{
+  grid-area: seventh;
+  display: grid;
+  grid-template-columns: 240px 60px 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  ". . lineUpLeft"
+  "seventhObject seventhN  leftUp";
+  height: 100%;
+}
+
+#leftUp{
+  height: 100%;
+  grid-area: leftUp;
+  display: grid !important;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: 1fr 2px 1fr;
+  grid-template-areas: 
+    ". verticlaLine ."
+    "horizontalLine verticlaLine ."
+    ". . .";
+  align-items: center;
+
+}
+
+#lineUpLeft{
+  grid-area: lineUpLeft;
+  justify-self: center;
+}
+#seventhObject{
+  grid-area: seventhObject;
+}
+
+#seventhN{
+  grid-area: seventhN;
+  align-self: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#eighth{
+  grid-area: eighth;
+  display: grid;
+  grid-template-columns: 1fr 60px 240px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "lineUpRight . ."
+  "rightUp eighthN  eighthObject";
+  height: 100%;
+}
+
+#eighthObject{
+  grid-area: eighthObject;
+}
+
+#eighthN{
+  grid-area: eighthN;
+  align-self: center;
+}
+
+#lineUpRight{
+  grid-area: lineUpRight;
+  justify-self: center;
+}
+
+#rightUp{
+  height: 100%;
+  grid-area: rightUp;
+  display: grid !important;
+  grid-template-columns: 1fr 2px 1fr;
+  grid-template-rows: 1fr 2px 1fr;
+  grid-template-areas: 
+    ". verticlaLine ."
+    ". verticlaLine horizontalLine"
+    ". . .";
+  align-items: center;
+}
+
+
+
+
 
 #relation{
   grid-area: relation;
@@ -154,9 +387,83 @@
   max-height: 100px;
 }
 
+
+
+#narySelection{
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: 
+    "firstSelectionRow firstSelectionRow firstSelectionRow"
+    "secondSelectionRow secondSelectionRow secondSelectionRow"
+    "thirdSelectionRow thirdSelectionRow thirdSelectionRow";
+}
+
+#narySelection select{
+width: auto !important;
+margin-left: 0 !important;
+margin-top: 0.5em;
+}
+
+#narySelection select{
+  width: auto !important;
+  }
+
+#firstSelectionRow{
+  grid-area: firstSelectionRow;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "firstSelection secondSelection thirdSelection";
+}
+
+#secondSelectionRow{
+  grid-area: secondSelectionRow;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "firstSelection secondSelection thirdSelection";
+}
+
+#thirdSelectionRow{
+  grid-area: thirdSelectionRow;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "firstSelection secondSelection thirdSelection";
+}
+
+.firstSelection{
+  grid-area: firstSelection;
+}
+
+.secondSelection{
+  grid-area: secondSelection;
+  justify-self: center;
+}
+
+.thirdSelection{
+  grid-area: thirdSelection;
+  justify-self: end;
+}
+
+
 #left, #right {
   width: 60px;
 }
+
+.leftNotation, .rightNotation{
+  width: 60px;
+}
+
+.topNotation, .bottomNotation{
+  height: 60px;
+}
+
+
 
 #middle {
   width: 240px;

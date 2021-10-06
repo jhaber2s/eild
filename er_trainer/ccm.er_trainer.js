@@ -22,10 +22,10 @@
 //    "data": { "store": [ "ccm.store" ] },
       "default": {
         "format": "svg",
-        "images": [ "e", "1", "c", "n", "cn", "r" ],
+        "images": [ "e", "1", "c", "n", "cn", "r", "eVertical", "1Vertical", "cVertical", "nVertical", "cnVertical", "rVertical" ],
         "left": "copied",
         "notation": "crow",
-        "path": "https://ccmjs.github.io/eild/er_trainer/resources/img/"
+        "path": "./resources/img/"
       },
       "helper": [ "ccm.load", "https://ccmjs.github.io/akless-components/modules/versions/helper-7.1.0.mjs" ],
       "html": [ "ccm.load", "https://ccmjs.github.io/eild/er_trainer/resources/templates.mjs" ],
@@ -154,23 +154,32 @@
           "key": "1616583420078X07000891364194728"
         },
         {
-          "text": "Ein Komponist komponiert mehrere Musikstücke.",
-          "relationship": [
-            "Komponist",
-            "komponiert",
-            "Musikstück"
+          "text": "Test bezeihung zwischen Objekten",
+          "objects": [
+            "Objekt1",
+            "Objekt2",
+            "Objekt3",
+            "Objekt4",
+            "Objekt5",
           ],
+		      "relationship":["beziehung","","","",""],
           "solution": [
             "1",
-            "n"
+            "n",
+		      	"cn",
+            "n",
+		      	"cn",
           ],
           "updated_at": "2021-04-12T14:19:10+02:00",
           "created_at": "2021-03-24T11:57:00+01:00",
           "comment": [
-            "Musikstück hat einen Komponisten.",
-            "Komponist komponiert mehrere Musikstücke."
+            "Objekt1 nimmt 1 mal teil",
+            "Objekt2 nimmt n mal teil ",
+			      "Objekt3 nimmt 1-n mal teil",
+            "Objekt4 nimmt 1-n mal teil",
+            "Objekt5 nimmt 1-n mal teil",
           ],
-          "key": "1616583420099X766745849544219"
+          "key": "1616583420099X766745849644219"
         },
         {
           "text": "Test bezeihung zwischen Objekten",

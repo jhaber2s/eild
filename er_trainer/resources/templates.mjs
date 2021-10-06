@@ -59,32 +59,11 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
         
         <!-- Diagram -->
         <section class="px-2 py-3">
-          <div class="d-flex justify-content-between lead">
-            <div>${app.text.entity1}</div>
-            <div>${app.text.entity2}</div>
-          </div>
           <div id="diagram" class="d-flex justify-content-between align-items-center" style="visibility:${Object.keys(phrase).length === 7 ?'visible':'hidden'}">
-            <div class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
-              ${phrase.relationship[0]}
-            </div>
-            <div>
-              <img id="left" class="${left}" src="${images[app.values.indexOf(section.input[swap?1:0])+1]}">
-            </div>
-            <div class="filler"></div>
-            <div id="name">
-              <img id="middle" src="${images[5]}">
-              <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
-            </div>
-            <div class="filler"></div>
-            <div>
-              <img id="right" src="${images[app.values.indexOf(section.input[swap?0:1])+1]}">
-            </div>
-            <div class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?0:1]===section.solution[swap?0:1]?'correct':'failed')}">
-              ${phrase.relationship[2]}
-            </div>
+            ${Object.keys(phrase).length === 7 ? binaryDiagram(phrase, app, section,swap,images,centered,left) : html``}
           </div>
           <div id="ndiagram" class="d-flex justify-content-between align-items-center" style="visibility:${Object.keys(phrase).length === 7 ?'hidden':'visible'}">
-           ${Object.keys(phrase).length === 7 ? html`` : nnaryDiagram(phrase,app,section,swap,images,centered)}
+            ${Object.keys(phrase).length === 7 ? html`` : nnaryDiagram(phrase,app,section,images,centered)}
           </div>
         </section>
 
@@ -189,130 +168,193 @@ export function legend( app ) {
     </table>
   `;
 }
+
+export function binaryDiagram(phrase, app, section,swap,images,centered,left){
+  return html`
+    <div class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?1:0]===section.solution[swap?1:0]?'correct':'failed')}">
+      ${phrase.relationship[0]}
+    </div>
+    <div>
+      <img id="left" class="${left}" src="${images[app.values.indexOf(section.input[swap?1:0])+1]}">
+    </div>
+    <div class="filler"></div>
+    <div id="name">
+    <img id="middle" src="${images[5]}">
+    <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
+    </div>
+    <div class="filler"></div>
+    <div>
+      <img id="right" src="${images[app.values.indexOf(section.input[swap?0:1])+1]}">
+    </div>
+    <div class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?0:1]===section.solution[swap?0:1]?'correct':'failed')}">
+      ${phrase.relationship[2]}
+    </div>`
+}
+
 export function nnarySelector(phrase, app,section, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange){
   return html`
-  <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
-  <div style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="d-flex align-items-center pr-2">
-    <label for="input5" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[4]}:</b></label>
-    <select id="input5" class="form-control ml-2" @change=${onFifthInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[4])+1===i}>${caption}</option>`)}
-    </select>
-  </div>
-  <div style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}" class="d-flex align-items-center pr-2">
-    <label for="input3" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[2]}:</b></label>
-    <select id="input3" class="form-control ml-2" @change=${onThirdInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[2])+1===i}>${caption}</option>`)}
-    </select>
-  </div>          
-  <div style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}" class="d-flex align-items-center pl-2">
-    <label for="input6" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[5]}:</b></label>
-    <select id="input6" class="form-control ml-2" @change=${onSixthInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[5])+1===i}>${caption}</option>`)}
-    </select>
-  </div>
-  </section>
+  <div id = "narySelection">
+    <section id = "firstSelectionRow" class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+      <div style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="firstSelection align-items-center pr-2">
+        <label for="input5" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[4]}:</b></label>
+        <select id="input5" class="form-control ml-2" @change=${onFifthInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[4])+1===i}>${caption}</option>`)}
+        </select>
+      </div>
+      <div style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}" class="secondSelection align-items-center pr-2">
+        <label for="input3" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[2]}:</b></label>
+        <select id="input3" class="form-control ml-2" @change=${onThirdInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[2])+1===i}>${caption}</option>`)}
+        </select>
+      </div>          
+      <div style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}" class="thirdSelection align-items-center pl-2">
+        <label for="input6" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[5]}:</b></label>
+        <select id="input6" class="form-control ml-2" @change=${onSixthInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[5])+1===i}>${caption}</option>`)}
+        </select>
+      </div>
+    </section>
 
-  <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
-  <div style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}" class="d-flex align-items-center pr-2">
-    <label for="input1" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[0]}:</b></label>
-    <select id="input1" class="form-control ml-2" @change=${onFirstInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[0])+1===i}>${caption}</option>`)}
-    </select>
-  </div>
-  <div style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="d-flex align-items-center pl-2">
-    <label for="input2" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[1]}:</b></label>
-    <select id="input2" class="form-control ml-2" @change=${onSecondInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[1])+1===i}>${caption}</option>`)}
-    </select>
-  </div>
-  </section>
+    <section id = "secondSelectionRow" class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+      <div style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}" class="firstSelection align-items-center pr-2">
+        <label for="input1" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[0]}:</b></label>
+        <select id="input1" class="form-control ml-2" @change=${onFirstInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[0])+1===i}>${caption}</option>`)}
+        </select>
+      </div>
+      <div style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="thirdSelection align-items-center pl-2">
+        <label for="input2" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[1]}:</b></label>
+        <select id="input2" class="form-control ml-2" @change=${onSecondInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[1])+1===i}>${caption}</option>`)}
+        </select>
+      </div>
+    </section>
 
-  <section style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}" class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
-  <div class="d-flex align-items-center pr-2">
-    <label for="input7" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[6]}:</b></label>
-    <select id="input7" class="form-control ml-2" @change=${onSeventhInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[6])+1===i}>${caption}</option>`)}
-    </select>
+    <section id = "thirdSelectionRow" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}" class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+      <div style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}" class="firstSelection align-items-center pr-2">
+        <label for="input7" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[6]}:</b></label>
+        <select id="input7" class="form-control ml-2" @change=${onSeventhInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[6])+1===i}>${caption}</option>`)}
+        </select>
+      </div>
+      <div style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}" class="secondSelection align-items-center pr-2">
+        <label for="input4" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[3]}:</b></label>
+        <select id="input4" class="form-control ml-2" @change=${onFourthInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[3])+1===i}>${caption}</option>`)}
+        </select>
+      </div>          
+      <div style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}" class="thirdSelection align-items-center pl-2">
+        <label for="input8" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[7]}:</b></label>
+        <select id="input8" class="form-control ml-2" @change=${onEighthInputChange}>
+          ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[7])+1===i}>${caption}</option>`)}
+        </select>
+      </div>
+    </section>
   </div>
-  <div style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}" class="d-flex align-items-center pr-2">
-    <label for="input4" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[3]}:</b></label>
-    <select id="input4" class="form-control ml-2" @change=${onFourthInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[3])+1===i}>${caption}</option>`)}
-    </select>
-  </div>          
-  <div style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}" class="d-flex align-items-center pl-2">
-    <label for="input8" class="m-0 text-nowrap"><b>Auswahl ${phrase.objects[7]}:</b></label>
-    <select id="input8" class="form-control ml-2" @change=${onEighthInputChange}>
-      ${app.text.selection.map((caption,i)=>html`<option value="${app.values[i-1]||''}" ?selected=${app.values.indexOf(section.input[7])+1===i}>${caption}</option>`)}
-    </select>
-  </div>
-  </section>
 `
 }
 
-export function nnaryDiagram(phrase, app, section,swap,images,centered){
+export function nnaryDiagram(phrase, app, section,images,centered){
   return html`
     <div id="relation">
       <img id="middle" src="${images[5]}">
       <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[0]}</div>
     </div>
-    <div id="first" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}"  class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
-      ${phrase.objects[0]}
+    <div id = "first" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}">
+      <div id="firstObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
+        ${phrase.objects[0]}
+      </div>
+      <div id="firstN"> 
+        <img class="leftNotation" class="copied" src="${images[app.values.indexOf(section.input[0])+1]}">
+      </div>
+      <div id="lineLeft">
+        <div class="topCrossLine" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}"> </div>
+        <div class="horizontalLine"> </div>
+        <div class="bottomCrossLine" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}"> </div>
+      </div>
     </div>
-    <div id="firstN"> 
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[0])+1]}">
+    <div id = "second" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}">
+      <div id="secondObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[1]===section.solution[1]?'correct':'failed')}">
+        ${phrase.objects[1]}
+      </div>
+      <div id="secondN"> 
+        <img class="rightNotation" class="copied" src="${images[app.values.indexOf(section.input[1])+1]}">
+      </div>
+      <div id="lineRight">
+        <div class="topCrossLine" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}"> </div>
+        <div class="horizontalLine"> </div>
+        <div class="bottomCrossLine" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}"> </div>
+      </div>
     </div>
-    <div id="lineLeft">
-      <div class="topCrossLine"> </div>
-      <div class="horizontalLine"> </div>
+    <div id = "third" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}">
+      <div id="thirdObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[2]===section.solution[2]?'correct':'failed')}">
+        ${phrase.objects[2]}
+      </div>
+      <div id="thirdN"> 
+        <img class="topNotation" class="copied" src="${images[app.values.indexOf(section.input[2])+7]}">
+      </div> 
     </div>
-    <div id="second" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[1]===section.solution[1]?'correct':'failed')}">
-      ${phrase.objects[1]}
-    </div>
-    <div id="secondN"> 
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[1])+1]}">
-    </div>
-    <div id="third" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[2]===section.solution[2]?'correct':'failed')}">
-      ${phrase.objects[2]}
-    </div>
-    <div id="thirdN"> 
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[2])+1]}">
+    <div id = "fourth" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}">
+      <div id="fourthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[3]===section.solution[3]?'correct':'failed')}">
+        ${phrase.objects[3]}
+      </div>
+      <div id="fourthN"> 
+        <img class="bottomNotation" class="copied" src="${images[app.values.indexOf(section.input[3])+7]}">
+      </div>  
     </div> 
-    <div id="fourth" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[3]===section.solution[3]?'correct':'failed')}">
-      ${phrase.objects[3]}
-    </div>
-    <div id="fourthN"> 
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[3])+1]}">
-    </div>  
-    <div id="fifth" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[4]===section.solution[4]?'correct':'failed')}">
+    <div id="fifth" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}">
+    <div id="fifthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[4]===section.solution[4]?'correct':'failed')}">
       ${phrase.objects[4]}
     </div>
     <div id="fifthN">
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[4])+1]}">
+        <img class="leftNotation" class="copied" src="${images[app.values.indexOf(section.input[4])+1]}">
+      </div>
+      <div id="leftDown"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div id="lineDownLeft" class="verticlaLine">  </div>
     </div>
-    <div id="leftDown"> 
-      <div class="horizontalLine"> </div>
-      <div class="verticlaLine"></div>
+    <div id="sixth" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}">
+      <div id="sixthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[5]===section.solution[5]?'correct':'failed')}">
+        ${phrase.objects[5]}
+      </div>
+      <div id="sixthN"> 
+        <img class="rightNotation" class="copied" src="${images[app.values.indexOf(section.input[5])+1]}">
+      </div>
+      <div id="rightDown"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div id="lineDownRight" class="verticlaLine">  </div>  
     </div>
-    <div id="lineDownLeft" class="verticlaLine">  </div>
-    <div id="sixth" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[5]===section.solution[5]?'correct':'failed')}">
-      ${phrase.objects[5]}
+    <div id="seventh" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}">
+      <div id="seventhObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[6]===section.solution[6]?'correct':'failed')}">
+        ${phrase.objects[6]}
+      </div>
+      <div id="seventhN"> 
+        <img class="leftNotation" class="copied" src="${images[app.values.indexOf(section.input[6])+1]}">
+      </div>  
+      <div id="leftUp"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div id="lineUpLeft" class="verticlaLine">  </div>
     </div>
-    <div id="sixthN"> 
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[5])+1]}">
-    </div>  
-    <div id="seventh" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[6]===section.solution[6]?'correct':'failed')}">
-      ${phrase.objects[6]}
+    <div id="eighth" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}">
+      <div id="eighthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[7]===section.solution[7]?'correct':'failed')}">
+        ${phrase.objects[7]}
+      </div>
+      <div id="eighthN"> 
+        <img class="rightNotation" class="copied" src="${images[app.values.indexOf(section.input[7])+1]}">
+      </div>
+      <div id="rightUp"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div id="lineUpRight" class="verticlaLine">  </div>  
     </div>
-    <div id="seventhN"> 
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[6])+1]}">
-    </div>  
-    <div id="eighth" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[7]===section.solution[7]?'correct':'failed')}">
-      ${phrase.objects[7]}
-    </div>
-    <div id="eighthN"> 
-      <img id="left" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}" class="copied" src="${images[app.values.indexOf(section.input[7])+1]}">
-    </div>  
+    
   `;
 
 }
