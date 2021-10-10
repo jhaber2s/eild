@@ -103,22 +103,8 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
           </div>
         </section>
         
-        <!-- Correct Solution -->
-        <section class="d-flex flex-column align-items-center px-2" ?data-hidden=${!app.feedback||!app.show_solution||section.correct===undefined||section.correct}>
-          <div class="lead">${app.text.correct_solution}</div>
-          <div class="d-flex align-items-center mt-3">
-            <div>
-              <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[swap?1:0])+1]}">
-            </div>
-            <div id="name">
-              <img id="middle" src="${images[5]}">
-              <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
-            </div>
-            <div>
-              <img id="right" src="${images[app.values.indexOf(section.solution[swap?0:1])+1]}">
-            </div>
-          </div>
-        </section>
+       
+        ${Object.keys(phrase).length === 7 ? binarySolution(app,section,images,left,centered,phrase,swap) :narySolution(app,section,images,left,centered,phrase)}
 
         <!-- Buttons -->
         <section class="d-flex justify-content-center flex-wrap px-2 py-3">
@@ -166,6 +152,15 @@ export function legend( app ) {
         `)}
       </tbody>
     </table>
+  `;
+}
+
+export function naryNotation( app ) {
+  return html`
+    <div>
+      <h2>Aufgrund der Unterschiedlichen Bedeutung von n-ären Bezeihungen in unterschiedlichen Notationen ist eine Übersetzung nicht Semantisch korekt möglich</h2>
+      <h3>Für n-äre Bezeihungen steht nur die Abrial Notation zur verfügung</h3>
+    </div>
   `;
 }
 
@@ -356,6 +351,67 @@ export function nnaryDiagram(phrase, app, section,images,centered){
     </div>
     
   `;
+
+}
+
+export function binarySolution(app,section,images,left,centered,phrase,swap){
+  return html`
+    <!-- Correct Solution -->
+    <section class="d-flex flex-column align-items-center px-2" ?data-hidden=${!app.feedback||!app.show_solution||section.correct===undefined||section.correct}>
+      <div class="lead">${app.text.correct_solution}</div>
+      <div class="d-flex align-items-center mt-3">
+        <div>
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[swap?1:0])+1]}">
+        </div>
+        <div id="name">
+          <img id="middle" src="${images[5]}">
+          <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
+        </div>
+        <div>
+          <img id="right" src="${images[app.values.indexOf(section.solution[swap?0:1])+1]}">
+        </div>
+      </div>
+    </section>  
+  `
+}
+
+export function narySolution(app,section,images,left,centered,phrase){
+  return html`
+  <section class="d-flex flex-column align-items-center px-2" ?data-hidden=${!app.feedback||!app.show_solution||section.correct===undefined||section.correct}>
+    <div class="lead">${app.text.correct_solution}</div>
+    <div id = "narySolution" class="d-flex align-items-center mt-3">
+       <div id = "firstN" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}">
+         <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[0])+1]}">
+        </div>
+        <div id = "secondN" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[1])+1]}">
+        </div>
+        <div id = "thirdN" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[2])+7]}">
+        </div>
+        <div id = "fourthN" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[3])+7]}">
+        </div>
+        <div id = "fithdN" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[4])+1]}">
+        </div>
+        <div id = "sixthN" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[5])+1]}">
+        </div>
+        <div id = "seventhN" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[6])+1]}">
+        </div>
+        <div id = "eighthN" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[7])+1]}">
+        </div>
+        <div id="name">
+          <img id="middle" src="${images[5]}">
+          <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
+        </div>
+      </div>
+  </section>
+  `
+
 
 }
 

@@ -464,6 +464,17 @@ margin-top: 0.5em;
 }
 
 
+#narySolution{
+  display: grid !important;
+  grid-template-columns: 60px 240px 60px;
+  grid-template-rows: auto;
+  grid-template-areas: 
+  "fifthN thirdN sixthN"
+  "firstN relation secondN"
+  "seventhN fourthN eighthN";
+}
+
+
 
 #middle {
   width: 240px;
