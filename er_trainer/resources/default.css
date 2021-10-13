@@ -16,11 +16,13 @@
 #ndiagram{
   display: grid !important;
   grid-template-columns: 240px 60px 1fr 240px 1fr 60px 240px;
-  grid-template-rows: auto;
+  grid-template-rows: 60px 60px 2px 1fr 2px 60px 60px;
   grid-template-areas: 
     "fifth fifth fifth third sixth sixth sixth"
     "fifth fifth fifth third sixth sixth sixth"
+    "fifth fifth fifth relation sixth sixth sixth"
     "first first first relation second second second"
+    "seventh seventh seventh relation eighth eighth eighth"
     "seventh seventh seventh fourth eighth eighth eighth"
     "seventh seventh seventh fourth eighth eighth eighth";
   overflow: auto; 
@@ -53,9 +55,9 @@
   grid-template-columns: 1fr 2px 1fr;
   grid-template-rows: 1fr 2px 1fr;
   grid-template-areas: 
-    ". topCrossLine ."
+    ". . ."
     "horizontalLine horizontalLine horizontalLine"
-    ". bottomCrossLine .";
+    ". . .";
   align-items: center;
 }
 
@@ -89,9 +91,9 @@
   grid-template-columns: 1fr 2px 1fr;
   grid-template-rows: 1fr 2px 1fr;
   grid-template-areas: 
-    ". topCrossLine ."
+    ". . ."
     "horizontalLine horizontalLine horizontalLine"
-    ". bottomCrossLine .";
+    ". . .";
   align-items: center;
 }
 
@@ -182,14 +184,18 @@
 }
 
 
+
+
+
 #fifth{
   grid-area: fifth;
   display: grid;
-  grid-template-columns: 240px 60px 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 240px 60px 1fr 1fr;
+  grid-template-rows: 1fr 1fr 2px;
   grid-template-areas: 
-  "fithtObject fifthN leftDown"
-  ". . lineDownLeft";
+  "fithtObject fifthN leftDown leftDown"
+  ". . lineDownLeft lineDownLeft"
+  ". . . horizontalLine";
   height: 100%;
 }
 #fithtObject{
@@ -225,19 +231,15 @@
 
 
 
-
-
-
-
-
 #sixth{
   grid-area: sixth;
   display: grid;
-  grid-template-columns: 1fr 60px 240px;
+  grid-template-columns: 1fr 1fr 60px 240px;
   grid-template-rows: 1fr 1fr;
   grid-template-areas: 
-  "rightDown sixthN sixthObject"
-  "lineDownRight . .";
+  "rightDown rightDown sixthN sixthObject"
+  "lineDownRight lineDownRight . ."
+  "horizontalLine . . .";
   height: 100%;
 }
 #sixthObject{
@@ -277,15 +279,15 @@
 
 
 
-
 #seventh{
   grid-area: seventh;
   display: grid;
-  grid-template-columns: 240px 60px 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 240px 60px 1fr 1fr;
+  grid-template-rows:2px 1fr 1fr;
   grid-template-areas: 
-  ". . lineUpLeft"
-  "seventhObject seventhN  leftUp";
+  ". . . horizontalLine"
+  ". . lineUpLeft lineUpLeft"
+  "seventhObject seventhN  leftUp leftUp";
   height: 100%;
 }
 
@@ -331,16 +333,15 @@
 
 
 
-
-
 #eighth{
   grid-area: eighth;
   display: grid;
-  grid-template-columns: 1fr 60px 240px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns:1fr 1fr 60px 240px;
+  grid-template-rows:2px 1fr 1fr;
   grid-template-areas: 
-  "lineUpRight . ."
-  "rightUp eighthN  eighthObject";
+  "horizontalLine . . ."
+  "lineUpRight lineUpRight . ."
+  "rightUp rightUp eighthN eighthObject";
   height: 100%;
 }
 

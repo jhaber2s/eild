@@ -22,7 +22,7 @@ export { render };
  * @param {function} onFinishClick - when 'finish' button is clicked
  * @returns {TemplateResult} main HTML template
  */
-export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick ) {
+export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick,onNaryNotationClick ) {
   let { centered, comment, images, left, swap } = app.notations[ data.notation ];
   const section = data.sections[ phrase_nr - 1 ];
   return html`
@@ -33,9 +33,9 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
 
         <!-- Notation Selection -->
         <section ?data-hidden=${Object.keys(app.notations).length===1}>
-          <div class="d-flex align-items-center">
+          <div class="d-flex align-items-center" id="notation-input-div" @click=${Object.keys(phrase).length === 7 ? ()=>{} : onNaryNotationClick}>
             <label for="notation-input" class="m-0 text-nowrap"><b>${app.text.notation}</b></label>
-            <select id="notation-input" class="form-control ml-2" @change=${onNotationChange}>
+            <select id="notation-input" class="form-control ml-2" @change=${onNotationChange} >
               ${Object.keys(phrase).length === 7 ? Object.values(app.notations).sort( ( a, b ) => a.title.localeCompare( b.title ) ).map(({key,title})=>html`<option value="${key}" ?selected=${data.notation===key}>${title}</option>`) : html`<option value="Abrial" ?selected=Abrial>Abrial</option>`}
             </select>
           </div>
@@ -63,8 +63,9 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
             ${Object.keys(phrase).length === 7 ? binaryDiagram(phrase, app, section,swap,images,centered,left) : html``}
           </div>
           <div id="ndiagram" class="d-flex justify-content-between align-items-center" style="visibility:${Object.keys(phrase).length === 7 ?'hidden':'visible'}">
-            ${Object.keys(phrase).length === 7 ? html`` : nnaryDiagram(phrase,app,section,images,centered)}
+            ${Object.keys(phrase).length === 7 ? html`` : (phrase.type==="r"?nnaryDiagram(phrase,app,section,images,centered):inheritanceDiagram(phrase, app, section,images,centered))}
           </div>
+          
         </section>
 
         <!-- Selector Boxes -->
@@ -85,7 +86,7 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
           </section>
         </div>
        <div style="visibility:${Object.keys(phrase).length === 7 ?'hidden':'visible'}">
-       ${Object.keys(phrase).length === 7 ? html`` : nnarySelector(phrase, app,section, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange)}
+       ${Object.keys(phrase).length === 7 ? html`` : (phrase.type==="r"?nnarySelector(phrase, app,section, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange):inheritanceSelector(phrase, app,section,onFirstInputChange))}
        </div>
 
         <!-- Notation Comment -->
@@ -104,7 +105,7 @@ export function main( app, data, phrase, phrase_nr, onNotationChange, onLegendCl
         </section>
         
        
-        ${Object.keys(phrase).length === 7 ? binarySolution(app,section,images,left,centered,phrase,swap) :narySolution(app,section,images,left,centered,phrase)}
+        ${Object.keys(phrase).length === 7 ? binarySolution(app,section,images,left,centered,phrase,swap) :(phrase.type==="r"?narySolution(app,section,images,left,centered,phrase):inheritanceSolution(app,section,images,left,centered,phrase))}
 
         <!-- Buttons -->
         <section class="d-flex justify-content-center flex-wrap px-2 py-3">
@@ -158,8 +159,8 @@ export function legend( app ) {
 export function naryNotation( app ) {
   return html`
     <div>
-      <h2>Aufgrund der Unterschiedlichen Bedeutung von n-ären Bezeihungen in unterschiedlichen Notationen ist eine Übersetzung nicht Semantisch korekt möglich</h2>
-      <h3>Für n-äre Bezeihungen steht nur die Abrial Notation zur verfügung</h3>
+      <p>Aufgrund der Unterschiedlichen Bedeutung von n-ären Bezeihungen in verschiedenen Notationen ist eine semantisch korekte Übersetzung nicht möglich</p>
+      <p>Für n-äre Bezeihungen steht daher nur die Abrial Notation zur verfügung</p>
     </div>
   `;
 }
@@ -174,7 +175,7 @@ export function binaryDiagram(phrase, app, section,swap,images,centered,left){
     </div>
     <div class="filler"></div>
     <div id="name">
-    <img id="middle" src="${images[5]}">
+    <img id="middle" src="${images[10]}">
     <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
     </div>
     <div class="filler"></div>
@@ -184,6 +185,21 @@ export function binaryDiagram(phrase, app, section,swap,images,centered,left){
     <div class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[swap?0:1]===section.solution[swap?0:1]?'correct':'failed')}">
       ${phrase.relationship[2]}
     </div>`
+}
+
+export function inheritanceSelector(phrase, app,section,onFirstInputChange){
+  return html`
+    <div>
+      <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+        <div class="d-flex align-items-center pr-2">
+          <label for="input1" class="m-0 text-nowrap"><b>Vererbung</b></label>
+          <select id="input1" class="form-control ml-2" @change=${onFirstInputChange}>
+            ${app.text.selectionInheritance.map((caption,i)=>html`<option value="${app.valuesInheritance[i-1]||''}" ?selected=${app.values.indexOf(section.input[0])===i}>${caption}</option>`)}
+          </select>
+        </div>
+      </section>
+    </div>
+  `
 }
 
 export function nnarySelector(phrase, app,section, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange){
@@ -249,10 +265,68 @@ export function nnarySelector(phrase, app,section, onFirstInputChange, onSecondI
 `
 }
 
+export function inheritanceDiagram(phrase, app, section,images,centered){
+  return html`
+    <div id="relation">
+      ${console.log(section)}
+      <img id="middle" src="${images[13+Object.values(phrase.objects).length]}">
+      <div class="text-nowrap" ?data-centered=${centered}>${section.input[0]}</div>
+    </div>
+   
+    <div id = "third" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}">
+      <div id="thirdObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
+        ${phrase.objects[0]}
+      </div>
+      <div id="thirdN"> 
+        <img class="topNotation" class="copied" src="${images[app.values.indexOf(section.input[2])+6]}">
+      </div> 
+    </div>
+    <div id = "fourth" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}">
+      <div id="fourthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
+        ${phrase.objects[1]}
+      </div>
+      <div id="fourthN"> 
+        <img class="bottomNotation" class="copied" src="${images[app.values.indexOf(section.input[3])+6]}">
+      </div>  
+    </div> 
+    <div id="seventh" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}">
+      <div id="seventhObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
+        ${phrase.objects[2]}
+      </div>
+      <div id="seventhN"> 
+        <img class="leftNotation" class="copied" src="${images[app.values.indexOf(section.input[2])+1]}">
+      </div>  
+      <div id="leftUp"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div class="horizontalLine"> </div>
+      <div id="lineUpLeft" class="verticlaLine">  </div>
+    </div>
+    <div id="eighth" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}">
+      <div id="eighthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
+        ${phrase.objects[3]}
+      </div>
+      <div id="eighthN"> 
+        <img class="rightNotation" class="copied" src="${images[app.values.indexOf(section.input[3])+1]}">
+      </div>
+      <div id="rightUp"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div class="horizontalLine"> </div>
+      <div id="lineUpRight" class="verticlaLine">  </div>  
+    </div>
+    
+  `;
+
+}
+
 export function nnaryDiagram(phrase, app, section,images,centered){
   return html`
     <div id="relation">
-      <img id="middle" src="${images[5]}">
+      ${console.log(images)}
+      <img id="middle" src="${phrase.type==="r"?(images[10+(Object.values(phrase.objects).length >4? Object.values(phrase.objects).length -4: 0)]):images[13+Object.values(phrase.objects).length]}">
       <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[0]}</div>
     </div>
     <div id = "first" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}">
@@ -263,9 +337,7 @@ export function nnaryDiagram(phrase, app, section,images,centered){
         <img class="leftNotation" class="copied" src="${images[app.values.indexOf(section.input[0])+1]}">
       </div>
       <div id="lineLeft">
-        <div class="topCrossLine" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}"> </div>
         <div class="horizontalLine"> </div>
-        <div class="bottomCrossLine" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}"> </div>
       </div>
     </div>
     <div id = "second" style="visibility:${Object.values(phrase.objects).length >=2 ?'visible':'hidden'}">
@@ -286,7 +358,7 @@ export function nnaryDiagram(phrase, app, section,images,centered){
         ${phrase.objects[2]}
       </div>
       <div id="thirdN"> 
-        <img class="topNotation" class="copied" src="${images[app.values.indexOf(section.input[2])+7]}">
+        <img class="topNotation" class="copied" src="${images[app.values.indexOf(section.input[2])+6]}">
       </div> 
     </div>
     <div id = "fourth" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}">
@@ -294,7 +366,7 @@ export function nnaryDiagram(phrase, app, section,images,centered){
         ${phrase.objects[3]}
       </div>
       <div id="fourthN"> 
-        <img class="bottomNotation" class="copied" src="${images[app.values.indexOf(section.input[3])+7]}">
+        <img class="bottomNotation" class="copied" src="${images[app.values.indexOf(section.input[3])+6]}">
       </div>  
     </div> 
     <div id="fifth" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}">
@@ -308,6 +380,7 @@ export function nnaryDiagram(phrase, app, section,images,centered){
         <div class="horizontalLine"> </div>
         <div class="verticlaLine"></div>
       </div>
+      <div class="horizontalLine"> </div>
       <div id="lineDownLeft" class="verticlaLine">  </div>
     </div>
     <div id="sixth" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}">
@@ -321,6 +394,7 @@ export function nnaryDiagram(phrase, app, section,images,centered){
         <div class="horizontalLine"> </div>
         <div class="verticlaLine"></div>
       </div>
+      <div class="horizontalLine"> </div>
       <div id="lineDownRight" class="verticlaLine">  </div>  
     </div>
     <div id="seventh" style="visibility:${Object.values(phrase.objects).length >=7 ?'visible':'hidden'}">
@@ -334,6 +408,7 @@ export function nnaryDiagram(phrase, app, section,images,centered){
         <div class="horizontalLine"> </div>
         <div class="verticlaLine"></div>
       </div>
+      <div class="horizontalLine"> </div>
       <div id="lineUpLeft" class="verticlaLine">  </div>
     </div>
     <div id="eighth" style="visibility:${Object.values(phrase.objects).length >=8 ?'visible':'hidden'}">
@@ -347,6 +422,7 @@ export function nnaryDiagram(phrase, app, section,images,centered){
         <div class="horizontalLine"> </div>
         <div class="verticlaLine"></div>
       </div>
+      <div class="horizontalLine"> </div>
       <div id="lineUpRight" class="verticlaLine">  </div>  
     </div>
     
@@ -364,7 +440,7 @@ export function binarySolution(app,section,images,left,centered,phrase,swap){
           <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[swap?1:0])+1]}">
         </div>
         <div id="name">
-          <img id="middle" src="${images[5]}">
+          <img id="middle" src="${images[10]}">
           <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
         </div>
         <div>
@@ -372,6 +448,21 @@ export function binarySolution(app,section,images,left,centered,phrase,swap){
         </div>
       </div>
     </section>  
+  `
+}
+
+export function inheritanceSolution(app,section,images,left,centered,phrase){
+  return html`
+   <section class="d-flex flex-column align-items-center px-2" ?data-hidden=${!app.feedback||!app.show_solution||section.correct===undefined||section.correct}>
+      <div class="lead">${app.text.correct_solution}</div>
+      <div class="d-flex align-items-center mt-3">
+        <div id="name">
+          <img id="middle" src="${images[15]}">
+          <div class="text-nowrap" ?data-centered=${centered}>${section.solution[0]}</div>
+        </div>
+      </div>
+    </section>  
+      
   `
 }
 
@@ -387,10 +478,10 @@ export function narySolution(app,section,images,left,centered,phrase){
           <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[1])+1]}">
         </div>
         <div id = "thirdN" style="visibility:${Object.values(phrase.objects).length >=3 ?'visible':'hidden'}">
-          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[2])+7]}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[2])+6]}">
         </div>
         <div id = "fourthN" style="visibility:${Object.values(phrase.objects).length >=4 ?'visible':'hidden'}">
-          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[3])+7]}">
+          <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[3])+6]}">
         </div>
         <div id = "fithdN" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}">
           <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[4])+1]}">
@@ -405,7 +496,7 @@ export function narySolution(app,section,images,left,centered,phrase){
           <img class="${left}" id="left" src="${images[app.values.indexOf(section.solution[7])+1]}">
         </div>
         <div id="name">
-          <img id="middle" src="${images[5]}">
+          <img id="middle" src="${images[10]}">
           <div class="text-nowrap" ?data-centered=${centered}>${phrase.relationship[1]}</div>
         </div>
       </div>

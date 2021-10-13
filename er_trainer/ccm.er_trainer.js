@@ -22,7 +22,7 @@
 //    "data": { "store": [ "ccm.store" ] },
       "default": {
         "format": "svg",
-        "images": [ "e", "1", "c", "n", "cn", "r", "eVertical", "1Vertical", "cVertical", "nVertical", "cnVertical", "rVertical" ],
+        "images": [ "e", "1", "c", "n", "cn", "eVertical", "1Vertical", "cVertical", "nVertical", "cnVertical", "r","r5","r6","r7","r8","s1","s2","s3" ],
         "left": "copied",
         "notation": "crow",
         "path": "./resources/img/"
@@ -32,11 +32,17 @@
 //    "logger": [ "ccm.instance", "https://ccmjs.github.io/akless-components/log/versions/ccm.log-5.0.1.js", [ "ccm.get", "https://ccmjs.github.io/akless-components/log/resources/configs.js", "greedy" ] ],
       "feedback": true,
       "legend": true,
-      "modal": [ "ccm.start", "https://ccmjs.github.io/tkless-components/modal/versions/ccm.modal-3.0.0.js", {
+      "legendModal": [ "ccm.start", "https://ccmjs.github.io/tkless-components/modal/versions/ccm.modal-3.0.0.js", {
         "backdrop_close": true,
         "content": "",
         "closed": true,
         "buttons": ""
+      } ],
+      "naryModal": [ "ccm.start", "https://ccmjs.github.io/tkless-components/modal/versions/ccm.modal-3.0.0.js", {
+        "backdrop_close": true,
+        "content": "",
+        "closed": true,
+        "buttons": "",
       } ],
       "notations": {
         "abrial": {
@@ -116,25 +122,6 @@
           "key": "1616583420033X8090030402725776"
         },
         {
-          "text": "Eine Stadt kann eine Hauptstadt sein. Jeder Staat hat genau eine Hauptstadt.",
-          "relationship": [
-            "Staat",
-            "hauptstadt von",
-            "Stadt"
-          ],
-          "solution": [
-            "c",
-            "1"
-          ],
-          "updated_at": "2021-04-12T14:19:10+02:00",
-          "created_at": "2021-03-24T11:57:00+01:00",
-          "comment": [
-            "Stadt kann nur Hauptstadt von genau einem Staat sein.",
-            "Die Beziehung ist Hauptstadt ist nur für höchstens eine Stadt in einem Staat richtig und für alle anderen falsch."
-          ],
-          "key": "1616583420056X5457200187602396"
-        },
-        {
           "text": "Ein Musiker spielt ein oder mehrere Instrumete. Ein Instrument wird von mehreren Musikern gespielt.",
           "relationship": [
             "Musiker",
@@ -154,34 +141,53 @@
           "key": "1616583420078X07000891364194728"
         },
         {
+          "type":"r",
           "text": "Test bezeihung zwischen Objekten",
           "objects": [
-            "Objekt1",
-            "Objekt2",
-            "Objekt3",
-            "Objekt4",
-            "Objekt5",
+            "Stud",
+            "Prof",
+            "LV"
           ],
-		      "relationship":["beziehung","","","",""],
+		      "relationship":["Prüft","","","",""],
           "solution": [
-            "1",
-            "n",
-		      	"cn",
-            "n",
-		      	"cn",
+            "cn",
+            "cn",
+		      	"cn"
           ],
           "updated_at": "2021-04-12T14:19:10+02:00",
           "created_at": "2021-03-24T11:57:00+01:00",
           "comment": [
             "Objekt1 nimmt 1 mal teil",
             "Objekt2 nimmt n mal teil ",
-			      "Objekt3 nimmt 1-n mal teil",
-            "Objekt4 nimmt 1-n mal teil",
-            "Objekt5 nimmt 1-n mal teil",
+			      "Objekt3 nimmt 1-n mal teil"
           ],
           "key": "1616583420099X766745849644219"
         },
         {
+          "type":"v",
+          "text": "Eine Vererbung",
+          "objects": [
+            "Mensch",
+            "Professor",
+            "Student",
+            "Mitarbeiter"
+
+          ],
+		      "relationship":["","","","",""],
+          "solution": [
+            "td"
+          ],
+          "updated_at": "2021-04-12T14:19:10+02:00",
+          "created_at": "2021-03-24T11:57:00+01:00",
+          "comment": [
+            "Ist total",
+            "ist disjunkt ",
+			      "Objekt3 nimmt 1-n mal teil"
+          ],
+          "key": "1616583420099X766745849644219"
+        },
+        {
+          "type":"r",
           "text": "Test bezeihung zwischen Objekten",
           "objects": [
             "Objekt1",
@@ -239,10 +245,12 @@
         "next": "Weiter",
         "phrase": "Phrase [%%]:",
         "selection": [ "Bitte auswählen", "einfach", "bedingt", "mehrfach", "bedingt mehrfach" ],
+        "selectionInheritance":["Bitte auswählen","total | disjunkt","total | nicht-disjunkt","partiell | disjunkt","partiell | nicht-disjunkt"],
         "submit": "Antworten",
         "title": "ER-Trainer"
       },
-      "values": [ "1", "c", "n", "cn" ]
+      "values": [ "1", "c", "n", "cn" ],
+      "valuesInheritance":[ "td","tn","pd","pn"]
     },
 
     Instance: function () {
@@ -254,8 +262,9 @@
         // set shortcut to help functions
         $ = Object.assign( {}, this.ccm.helper, this.helper ); $.use( this.ccm );
 
-        // set title of modal dialog
-        this.modal.title = this.text.legend;
+        // set title of legendModal dialog
+        this.legendModal.title = this.text.legend;
+        this.naryModal.title = "Notaionen von N-ären Beziehungen";
 
         // uniform notations data
         for ( const key in this.notations ) {
@@ -308,9 +317,10 @@
         phrase_nr = 0;
         nextPhrase();
 
-        // set content of modal dialog for legend table
-        this.html.render( this.html.legend( this ), this.modal.element.querySelector( 'main' ) );
+        // set content of legendModal dialog for legend table
+        this.html.render( this.html.legend( this ), this.legendModal.element.querySelector( 'main' ) );
 
+        this.html.render( this.html.naryNotation( this ), this.naryModal.element.querySelector( 'main' ) );
         this.onstart && await this.onstart( this );
 
         // logging of 'start' event
@@ -332,8 +342,14 @@
 
       /** renders current phrase */
       const render = () => {
-        this.html.render( this.html.main( this, dataset, phrases[ 0 ], phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick ), this.element );
+        this.html.render( this.html.main( this, dataset, phrases[ 0 ], phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick,onNaryNotationClick ), this.element );
         this.element.querySelectorAll( '[selected]' ).forEach( option => option.selected = true );  // workaround for lit-html bug
+        if(Object.keys(phrases[ phrase_nr-1 ]).length !== 7){
+          this.element.querySelector('#notation-input-div').addEventListener('click',this.onNaryNotationClick)
+          this.element.querySelector('#notation-input').setAttribute("disabled","disabled")
+          
+        }
+        
       };
 
       /**
@@ -351,8 +367,13 @@
 
       /** when 'legend' button is clicked */
       const onLegendClick = () => {
-        this.modal.open();
+        this.legendModal.open();
         this.onchange && this.onchange( { event: 'legend', instance: this } );
+      }
+
+      const onNaryNotationClick = () => {
+        this.naryModal.open();
+        this.onchange && this.onchange( { event: 'naryNotation', instance: this } );
       }
 
       /** when selected entry of left selector box changes */
@@ -422,7 +443,7 @@
         setNInput( 7, event.target.value );
         render();
         this.onchange && this.onchange( { event: 'Eighth', instance: this, phrase: phrase_nr } );
-      };  
+      };      
       
 
       /** when 'cancel' button is clicked */
@@ -434,7 +455,7 @@
       /** when 'submit' button is clicked */
       const onSubmitClick = () => {
         const section = dataset.sections[ phrase_nr - 1 ];
-        if(section.input.length<3){
+        if(section.input.length===2){
           section.input = [
             this.element.querySelector( '#input' + ( this.notations[ dataset.notation ].swap ? 2 : 1 ) ).value,
             this.element.querySelector( '#input' + ( this.notations[ dataset.notation ].swap ? 1 : 2 ) ).value
