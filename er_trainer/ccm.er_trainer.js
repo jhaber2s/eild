@@ -144,11 +144,11 @@
           "type":"r",
           "text": "Test bezeihung zwischen Objekten",
           "objects": [
-            "Stud",
-            "Prof",
-            "LV"
+            "Mitarbeiter",
+            "Project",
+            "Skill"
           ],
-		      "relationship":["Prüft","","","",""],
+		      "relationship":["arbeite an / mit","","","",""],
           "solution": [
             "cn",
             "cn",
@@ -344,12 +344,6 @@
       const render = () => {
         this.html.render( this.html.main( this, dataset, phrases[ 0 ], phrase_nr, onNotationChange, onLegendClick, onLeftInputChange, onRightInputChange, onFirstInputChange, onSecondInputChange, onThirdInputChange, onFourthInputChange, onFifthInputChange, onSixthInputChange, onSeventhInputChange, onEighthInputChange, onCancelClick, onSubmitClick, onNextClick, onFinishClick,onNaryNotationClick ), this.element );
         this.element.querySelectorAll( '[selected]' ).forEach( option => option.selected = true );  // workaround for lit-html bug
-        if(Object.keys(phrases[ phrase_nr-1 ]).length !== 7){
-          this.element.querySelector('#notation-input-div').addEventListener('click',this.onNaryNotationClick)
-          this.element.querySelector('#notation-input').setAttribute("disabled","disabled")
-          
-        }
-        
       };
 
       /**
