@@ -375,6 +375,28 @@
 
 
 
+#fourthinheritance {
+	grid-area: first;
+	display: grid;
+	grid-template-columns: 240px 60px 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+	grid-template-areas: "fithtObject fifthN leftDown leftDown" 
+                       ". . lineDownLeft lineDownLeft";
+	height: 100%;
+}
+
+#fithtinheritance {
+	grid-area: second;
+	display: grid;
+  grid-template-columns: 1fr 1fr 60px 240px;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+  "rightDown rightDown sixthN sixthObject"
+  "lineDownRight lineDownRight . .";
+  height: 100%;
+}
+
+
 
 #relation{
   grid-area: relation;

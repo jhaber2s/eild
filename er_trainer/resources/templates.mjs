@@ -363,6 +363,33 @@ export function inheritanceDiagram(phrase, app, section,images,centered){
       <div class="horizontalLine"> </div>
       <div id="lineUpRight" class="verticlaLine">  </div>  
     </div>
+    <div id="fourthinheritance" style="visibility:${Object.values(phrase.objects).length >=5 ?'visible':'hidden'}">
+      <div id="fifthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
+        ${phrase.objects[4]}
+        </div>
+        <div id="fifthN">
+        <img class="leftNotation" class="copied" src="${images[app.values.indexOf(section.input[4])+1]}">
+      </div>
+      <div id="leftDown"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div id="lineDownLeft" class="verticlaLine">  </div>
+    </div>
+
+    <div id="fithtinheritance" style="visibility:${Object.values(phrase.objects).length >=6 ?'visible':'hidden'}">
+      <div id="sixthObject" class="entity border rounded p-3 text-nowrap ${app.feedback&&section.correct!==undefined&&(section.input[0]===section.solution[0]?'correct':'failed')}">
+        ${phrase.objects[5]}
+        </div>
+        <div id="sixthN">
+        <img class="rightNotation" class="copied" src="${images[app.values.indexOf(section.input[4])+1]}">
+      </div>
+      <div id="rightDown"> 
+        <div class="horizontalLine"> </div>
+        <div class="verticlaLine"></div>
+      </div>
+      <div id="lineDownRight" class="verticlaLine">  </div>  
+    </div>
     
   `;
 

@@ -167,10 +167,13 @@
           "type":"v",
           "text": "Eine Vererbung",
           "objects": [
-            "Mensch",
-            "Professor",
-            "Student",
-            "Mitarbeiter"
+            "Tier",
+            "Hund",
+            "Vogel",
+            "Fisch",
+            "Insekt",
+            "Affe"
+
 
           ],
 		      "relationship":["","","","",""],
