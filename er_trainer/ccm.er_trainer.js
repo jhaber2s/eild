@@ -1,10 +1,10 @@
 /**
  * @overview ccmjs-based web component for ER model training
- * @author André Kless <andre.kless@web.de> 2021
+ * @author André Kless <andre.kless@web.de> ,Jens Habermann 2021
  * @license The MIT License (MIT)
  * @version latest (1.0.0)
  * @changes
- * version 1.0.0 (19.04.2021)
+ * version 1.0.0 (02.12.2021)
  */
 
 ( () => {
