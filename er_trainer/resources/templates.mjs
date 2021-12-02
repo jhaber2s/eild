@@ -137,7 +137,7 @@ export function binaryPhraseComents(app,section,phrase,swap){
 
 export function inheritancePhraseComents(app,section,phrase){
   return html`
-    <section class="d-flex justify-content-between" ?data-hidden=${!app.feedback||section.correct===undefined||section.correct||!phrase.comment||!phrase.comment[0]}>
+    <section class="d-flex justify-content-center" ?data-hidden=${!app.feedback||section.correct===undefined||section.correct||!phrase.comment||!phrase.comment[0]}>
       <div class="mr-2 phrase-comment">
         <div class="alert alert-info" role="alert" ?data-hidden=${section.input[0]===section.solution[0]||phrase.comment&&!phrase.comment[0]}>${phrase.comment&&phrase.comment[0]}</div>
       </div>
@@ -147,30 +147,30 @@ export function inheritancePhraseComents(app,section,phrase){
 
 export function naryPhraseComents(app,section,phrase){
   return html`
-  <section class="d-flex justify-content-between" ?data-hidden=${!app.feedback||section.correct===undefined||section.correct||!phrase.comment||!phrase.comment[0]&&!phrase.comment[1]&&!phrase.comment[2]&&!phrase.comment[3]&&!phrase.comment[4]&&!phrase.comment[5]&&!phrase.comment[6]&&!phrase.comment[7]}>
-  <div class="mr-2 phrase-comment">
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[0]===section.solution[0]||phrase.comment&&!phrase.comment[0]}>${phrase.comment&&phrase.comment[0]}</div>
+  <section class="d-flex justify-content-center" ?data-hidden=${!app.feedback||section.correct===undefined||section.correct||!phrase.comment||!phrase.comment[0]&&!phrase.comment[1]&&!phrase.comment[2]&&!phrase.comment[3]&&!phrase.comment[4]&&!phrase.comment[5]&&!phrase.comment[6]&&!phrase.comment[7]}>
+    <div class="mr-2 phrase-comment" ?data-hidden=${section.input[0]===section.solution[0]||phrase.comment&&!phrase.comment[0]}>
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[0]}</div>
     </div>
-    <div class="ml-2 phrase-comment">
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[1]===section.solution[1]||phrase.comment&&!phrase.comment[1]}>${phrase.comment&&phrase.comment[1]}</div>
+    <div class="ml-2 phrase-comment" ?data-hidden=${section.input[1]===section.solution[1]||phrase.comment&&!phrase.comment[1]}>
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[1]}</div>
     </div>                                                                                                                                                                
-    <div class="mr-2 phrase-comment">                                                                                                                                     
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[2]===section.solution[2]||phrase.comment&&!phrase.comment[2]}>${phrase.comment&&phrase.comment[2]}</div>
+    <div class="mr-2 phrase-comment" ?data-hidden=${section.input[2]===section.solution[2]||phrase.comment&&!phrase.comment[2]}>                                                                                                                                     
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[2]}</div>
     </div>                                                                                                                                                                
-    <div class="ml-2 phrase-comment">                                                                                                                                     
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[3]===section.solution[3]||phrase.comment&&!phrase.comment[3]}>${phrase.comment&&phrase.comment[3]}</div>
+    <div class="ml-2 phrase-comment" ?data-hidden=${section.input[3]===section.solution[3]||phrase.comment&&!phrase.comment[3]}>                                                                                                                                     
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[3]}</div>
     </div>                                                                                                                                                                
-    <div class="mr-2 phrase-comment">                                                                                                                                     
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[4]===section.solution[4]||phrase.comment&&!phrase.comment[4]}>${phrase.comment&&phrase.comment[4]}</div>
+    <div class="mr-2 phrase-comment" ?data-hidden=${section.input[4]===section.solution[4]||phrase.comment&&!phrase.comment[4]}>                                                                                                                                     
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[4]}</div>
     </div>                                                                                                                                                                
-    <div class="ml-2 phrase-comment">                                                                                                                                     
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[5]===section.solution[5]||phrase.comment&&!phrase.comment[5]}>${phrase.comment&&phrase.comment[5]}</div>
+    <div class="ml-2 phrase-comment" ?data-hidden=${section.input[5]===section.solution[5]||phrase.comment&&!phrase.comment[5]}>                                                                                                                                     
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[5]}</div>
     </div>                                                                                                                                                                
-    <div class="mr-2 phrase-comment">                                                                                                                                     
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[6]===section.solution[6]||phrase.comment&&!phrase.comment[6]}>${phrase.comment&&phrase.comment[6]}</div>
+    <div class="mr-2 phrase-comment" ?data-hidden=${section.input[6]===section.solution[6]||phrase.comment&&!phrase.comment[6]}>                                                                                                                                     
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[6]}</div>
     </div>                                                                                                                                                                
-    <div class="ml-2 phrase-comment">                                                                                                                                     
-      <div class="alert alert-info" role="alert" ?data-hidden=${section.input[7]===section.solution[7]||phrase.comment&&!phrase.comment[7]}>${phrase.comment&&phrase.comment[7]}</div>
+    <div class="ml-2 phrase-comment" ?data-hidden=${section.input[7]===section.solution[7]||phrase.comment&&!phrase.comment[7]}>                                                                                                                                     
+      <div class="alert alert-info" role="alert" >${phrase.comment&&phrase.comment[7]}</div>
     </div>
   </section>
   `
@@ -203,9 +203,9 @@ export function legend( app ) {
     <div class="align-items-center pr-2">
     <div>Bei nären Bezeihungen ist eine semantsich korekte Übersetzung nicht möglich wenn es sich um eine "look-here" und eine "look-ahead" Notation handelt. Einen möglich Kompromis ist nahfolgend zu sehen.</div>
     <a href="http://dx.doi.org/10.1007/s10270-002-0009-3">Quelle des Beispiels</a>
-    <div>look-here</div>
+    <div>look-here (Abrial)</div>
     <img src="./resources/img/abrial/bspNotation1.png">
-    <div>look-acros</div>
+    <div>look-acros (UML)</div>
     <img src="./resources/img/abrial/bspNotation2.png">
     </div>
   `;
@@ -236,7 +236,7 @@ export function binaryDiagram(phrase, app, section,swap,images,centered,left){
 export function inheritanceSelector(phrase, app,section,onFirstInputChange){
   return html`
     <div>
-      <section class="d-flex justify-content-between align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
+      <section class="d-flex justify-content-center align-items-center px-2 py-3" ?data-hidden=${section.correct!==undefined}>
         <div class="d-flex align-items-center pr-2">
           <label for="input1" class="m-0 text-nowrap"><b>Vererbung</b></label>
           <select id="input1" class="form-control ml-2" @change=${onFirstInputChange}>
@@ -316,7 +316,7 @@ export function inheritanceDiagram(phrase, app, section,images,centered){
     <div id="relation">
       ${console.log(section)}
       <img id="middle" src="${images[13+Object.values(phrase.objects).length]}">
-      <div class="text-nowrap" ?data-centered=${centered}>${section.input[0]}</div>
+      <div class="text-nowrap" sytle="font-size: larger" ?data-centered=${centered}>${section.input[0]}</div>
     </div>
    
     <div id = "third" style="visibility:${Object.values(phrase.objects).length >=1 ?'visible':'hidden'}">

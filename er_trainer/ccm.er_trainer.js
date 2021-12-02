@@ -86,9 +86,9 @@
         {
           "text": "Ein Kontinent besteht aus mehreren Staaten. Es gibt allerdings auch Staaten, die auf mehreren Kontinenten liegen.",
           "relationship": [
-            "Kontinent",
-            "besteht aus",
-            "Staat"
+            "Objekt1",
+            "Beziehung",
+            "Objekt2"
           ],
           "solution": [
             "n",
